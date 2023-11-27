@@ -5,6 +5,8 @@ from typing import Any
 from selectolax.parser import HTMLParser
 from rich import print
 
+
+
 class ReiSpider(object):
     def __init__(self)-> None:
         pass

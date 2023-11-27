@@ -15,6 +15,7 @@ def debug():
     with open("response_detail.html", "r", encoding="UTF-8") as html_file:
         soup = HTMLParser(html=html_file.read())
         spider.get_product_detail(soup=soup)
+        # spider.get_data_from_json()
 
 if __name__ == "__main__":
     debug()
