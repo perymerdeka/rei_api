@@ -8,7 +8,7 @@ from scraper.debug import ReiSpiderDebug
 
 def main():
     spider: ReiSpider = ReiSpider()
-    spider.get_product_detail(url="https://www.rei.com/product/216094/baffin-young-eiger-snow-boots-kids?color=CHARCOAL/BLUE")
+    spider.get_product_data(url="https://www.rei.com/product/216094/baffin-young-eiger-snow-boots-kids?color=CHARCOAL/BLUE")
 
 def debug():
     spider: ReiSpiderDebug = ReiSpiderDebug()
@@ -18,4 +18,4 @@ def debug():
         # spider.get_data_from_json()
 
 if __name__ == "__main__":
-    debug()
+    main()
