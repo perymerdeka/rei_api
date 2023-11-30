@@ -13,13 +13,29 @@ class ReiSpiderDebug(object):
         self.validation: Validation = validation
         self.base_url: str = "https://www.rei.com"
 
-    def get_product_detail(self, soup: HTMLParser):
+    def get_product_detail(self, soup: HTMLParser) -> dict[str, Any]:
         # data mentah
         scripts = soup.css_first("script#modelData")
 
         # teknik parsing
         datas = self.get_data_from_json(scripts.text())
-        print(datas)
+        return datas
+
+    def get_product_items(self, soup: HTMLParser) -> list[str]:
+        urls: list[str] = []
+        search_items = soup.css_first("div#search-results")
+        products = search_items.css("ul.cdr-grid_13-5-2 > li")
+        for product in products:
+            product_url = product.css_first("a").attributes.get("href")
+            urls.append(self.base_url + product_url)
+
+        # cetak urls yang ditemukan disini
+        print("Total Product URL's Found: {}".format(len(urls)))
+        return urls
+
+    def get_pages_number(self, soup: HTMLParser) -> int:
+        pages = soup.css_first('a[data-id="pagination-test-link"]').text()
+        return self.validation.is_valid_pages_number(pages)
 
     def get_data_from_json(self, obj: str):
         data_dict: dict[str, Any] = {}

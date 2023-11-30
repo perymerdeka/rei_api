@@ -8,14 +8,13 @@ from scraper.debug import ReiSpiderDebug
 
 def main():
     spider: ReiSpider = ReiSpider()
-    spider.get_product_data(url="https://www.rei.com/product/216094/baffin-young-eiger-snow-boots-kids?color=CHARCOAL/BLUE")
+    spider.get_product_list(search_query="shoes")
 
 def debug():
     spider: ReiSpiderDebug = ReiSpiderDebug()
-    with open("response_detail.html", "r", encoding="UTF-8") as html_file:
+    with open("search_response.html", "r", encoding="UTF-8") as html_file:
         soup = HTMLParser(html=html_file.read())
-        spider.get_product_detail(soup=soup)
-        # spider.get_data_from_json()
+        spider.get_product_items(soup=soup)
 
 if __name__ == "__main__":
-    main()
+    debug()

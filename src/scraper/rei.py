@@ -2,25 +2,51 @@ import httpx
 import json
 
 
-from typing import Any
+from typing import Any, Optional
 from selectolax.parser import HTMLParser
 from rich import print
 
 from scraper.utils.validation import Validation
+
 
 class ReiSpider(object):
     def __init__(self, validation: Validation = Validation()):
         self.validation: Validation = validation
         self.base_url: str = "https://www.rei.com"
 
+    def get_pages_number(self, soup: HTMLParser) -> int:
+        pages = soup.css_first('a[data-id="pagination-test-link"]').text()
+        return self.validation.is_valid_pages_number(pages)
+
+    def get_product_list(self, search_query: str = "", page_number: Optional[str] = ""):
+        if page_number == "":
+            url: str = self.base_url + "/search?q={}".format(search_query)
+        else:
+            url: str = self.base_url + "/search?q={}&page={}".format(
+                search_query, page_number
+            )
+
+        headers: dict[str, Any] = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        }
+
+        response = httpx.get(url=url, headers=headers)
+
+        # olah response
+        f = open("search_response.html", "w+", encoding="UTF-8")
+        f.write(response.text)
+        f.close()
+
     def get_product_data(self, url: str):
-        headers: dict[str, Any] = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"}
+        headers: dict[str, Any] = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+        }
 
         # olah response
         response = httpx.get(url=url, headers=headers)
 
         # langkah sesudah mendapatkan data
-        f = open("response_detail.html", 'w+', encoding="UTF-8")
+        f = open("response_detail.html", "w+", encoding="UTF-8")
         f.write(response.text)
         f.close()
 
@@ -33,6 +59,7 @@ class ReiSpider(object):
         return product
 
         # scraping proses / olah data
+
     def get_product_detail(self, soup: HTMLParser):
         # data mentah
         scripts = soup.css_first("script#modelData")
@@ -73,4 +100,3 @@ class ReiSpider(object):
         data_dict["product_color"] = product_color
 
         return data_dict
-
