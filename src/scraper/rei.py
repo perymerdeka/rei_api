@@ -28,7 +28,14 @@ class ReiSpider(object):
         return self.validation.is_valid_pages_number(pages)
     
     def get_product_detail(self, soup: HTMLParser) -> dict[str, Any]:
+        """fungsi untuk mendapatkan product detail
 
+        Args:
+            soup (HTMLParser): soup object
+
+        Returns:
+            dict[str, Any]: detail product yang sudah di parsing
+        """
         # data mentah
         scripts = soup.css_first("script#modelData")
 
