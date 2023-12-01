@@ -2,8 +2,9 @@ import re
 
 from rich import print
 
+
 class Validation(object):
-    def __init__(self) -> None:
+    def __init__(self, ) -> None:
         pass
 
     def is_valid_phone(self, phone_number: str) -> str:
