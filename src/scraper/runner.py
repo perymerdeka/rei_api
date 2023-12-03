@@ -1,4 +1,5 @@
 from typing import Optional, Any
+from rich import print
 
 from scraper.rei import ReiSpider
 
@@ -7,6 +8,15 @@ class Runner(object):
         self.spider: Optional[ReiSpider] = ReiSpider()
     
     def generate_product(self, search_query: str, page: Optional[int]=None) -> list[dict[str, Any]]:
+        """fungsi untuk scrape product di halaman tertentu berdasarkan kata kunci yang diberikan
+
+        Args:
+            search_query (str): kata kunci untuk scrape product
+            page (Optional[int], optional): Nomor halaman. Defaults to None.
+
+        Returns:
+            list[dict[str, Any]]: _description_
+        """
         # mendapatkan html
         if  page != None:
             soup = self.spider.search_product(search_query=search_query, page_number=page)
@@ -18,14 +28,13 @@ class Runner(object):
             return products
 
 
-    def get_all_products(self, search_query: str) -> list[dict[str, Any]]:
+    def generate_all_products(self, search_query: str) -> list[dict[str, Any]]:
         total_products: list[dict[str, Any]] = []
         search = self.spider.search_product(search_query=search_query)
         pages = self.spider.get_pages_number(soup=search)
-        for page in range(pages):
-            # lakukan scraping disini
-            product = self.spider.search_product(search_query=search_query, page_number=page)
-            products = self.spider.get_product_list(soup=product)
+        for page in range(pages, start=1):
+            print("Scraping Page", page)
+            products = self.generate_product(search_query=search_query, page=page)
             total_products += products
         
         return total_products

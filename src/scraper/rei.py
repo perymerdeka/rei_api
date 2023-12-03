@@ -14,17 +14,17 @@ class ReiSpider(object):
         self.validation: Validation = validation
         self.base_url: str = "https://www.rei.com"
 
-    def search_product(self, search_query: str, page_number: str) -> HTMLParser:
+    def search_product(self, search_query: str, page_number: Optional[int]=None) -> HTMLParser:
         """fungsi untuk mencari sebuah product berdasarkan kata kunci
 
         Args:
             search_query (str): kata kunci untuk mencari product
-            page_number (str): nomor pada halaman
+            page_number (Optional[int]): nomor pada halaman
 
         Returns:
             HTMLParser: soup Object yang diolah untuk di parsing datanya
         """
-        if page_number == "":
+        if page_number == None or page_number == 1:
             url: str = self.base_url + "/search?q={}".format(search_query)
         else:
             url: str = self.base_url + "/search?q={}&page={}".format(
