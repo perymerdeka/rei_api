@@ -15,7 +15,7 @@ class Runner(object):
             page (Optional[int], optional): Nomor halaman. Defaults to None.
 
         Returns:
-            list[dict[str, Any]]: _description_
+            list[dict[str, Any]]: hasil product untuk satu halaman atau halaman tertentu
         """
         # mendapatkan html
         if  page != None:
@@ -29,6 +29,14 @@ class Runner(object):
 
 
     def generate_all_products(self, search_query: str) -> list[dict[str, Any]]:
+        """fungsi untuk scrape semua product dalam satu situs berdasarkan satu kata kunci tertentu
+
+        Args:
+            search_query (str): kata kunci untuk mencari product
+
+        Returns:
+            list[dict[str, Any]]: hasil semua product yang sudah di scrape
+        """
         total_products: list[dict[str, Any]] = []
         search = self.spider.search_product(search_query=search_query)
         pages = self.spider.get_pages_number(soup=search)
