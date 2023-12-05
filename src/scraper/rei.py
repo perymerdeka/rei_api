@@ -150,7 +150,8 @@ class ReiSpider(object):
         
 
         products_list = self.get_product_items(soup=soup)
-        for product in products_list:
+        for index, product in enumerate(products_list):
+            print("generate product data on URL: {} ({} of {})".format(product, index, len(products_list)))
             product_data = self.get_product_data(url=product)
             products.append(product_data)
 
@@ -159,6 +160,7 @@ class ReiSpider(object):
         return products
 
     def get_product_data(self, url: str) -> dict[str, Any]:
+        print("Process Product URL: {}".format(url))
         """fungsi untuk mendapatkan product dengan URL
 
         Args:
