@@ -160,7 +160,6 @@ class ReiSpider(object):
         return products
 
     def get_product_data(self, url: str) -> dict[str, Any]:
-        print("Process URL: {}".format(url))
         """fungsi untuk mendapatkan product dengan URL
 
         Args:
