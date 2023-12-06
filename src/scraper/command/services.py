@@ -14,7 +14,7 @@ class ScraperCommandService(object):
 
         if filepath != None:
             if is_csv:
-                self.extract.save_to_csv(data=total_products, filepath=filepath)
+                self.extract.to_csv(data=total_products, filepath=filepath)
             elif is_excel:
                 self.extract.to_excel(data=total_products, filepath=filepath)
             elif is_json:
@@ -28,7 +28,7 @@ class ScraperCommandService(object):
         products: list[dict[str, Any]] = self.runner.generate_product(search_query=search_query, page=page)
         if filepath != None:
             if is_csv:
-                self.extract.save_to_csv(data=products, filepath=filepath)
+                self.extract.to_csv(data=products, filepath=filepath)
             elif is_excel:
                 self.extract.to_excel(data=products, filepath=filepath)
             elif is_json:
