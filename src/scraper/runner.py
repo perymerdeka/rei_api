@@ -40,7 +40,7 @@ class Runner(object):
         total_products: list[dict[str, Any]] = []
         search = self.spider.search_product(search_query=search_query)
         pages = self.spider.get_pages_number(soup=search)
-        for page in range(pages, start=1):
+        for page in range(1, pages):
             print("Scraping Page", page)
             products = self.generate_product(search_query=search_query, page=page)
             total_products += products
